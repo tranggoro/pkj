@@ -1,207 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beauty Product Cost Calculator</title>
-    <style>
-        body {
-            font-family: 'Montserrat', 'Arial', sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f0f7f0;
-            color: #333;
-            background-image: linear-gradient(to bottom, rgba(0, 80, 0, 0.1) 0%, rgba(240, 247, 240, 1) 100%);
-        }
-        h1 {
-            color: #1a3e1a;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            letter-spacing: 1px;
-        }
-        .calculator {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border: 1px solid #a3c1a3;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2d4d2d;
-        }
-        select, input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #b8d0b8;
-            border-radius: 6px;
-            font-size: 16px;
-            background-color: #f5faf5;
-            transition: all 0.3s;
-        }
-        select:focus, input:focus {
-            outline: none;
-            border-color: #1a3e1a;
-            box-shadow: 0 0 0 2px rgba(26, 62, 26, 0.2);
-        }
-        #add-to-cart-btn {
-            background: linear-gradient(to right, #1a3e1a, #2d5c2d);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        #add-to-cart-btn:hover {
-            background: linear-gradient(to right, #2d5c2d, #1a3e1a);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        #add-to-cart-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        #add-to-cart-btn::before {
-            content: "🛒";
-            font-size: 18px;
-        }
-        .cart {
-            background-color: #f5faf5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 25px;
-            border: 1px solid #a3c1a3;
-        }
-        .cart h3 {
-            margin-top: 0;
-            color: #2d5c2d;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        .cart ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .cart ul li {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .cart ul li button {
-            background: #1a3e1a;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .cart ul li button:hover {
-            background: #2d5c2d;
-        }
-        .total {
-            font-weight: bold;
-            font-size: 18px;
-            border-top: 1px solid #a3c1a3;
-            padding-top: 12px;
-            margin-top: 12px;
-            color: #2d5c2d;
-        }
-        .total span:last-child {
-            color: #1a3e1a;
-            font-size: 20px;
-        }
-        #whatsapp-btn {
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        #whatsapp-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        #whatsapp-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo {
-            max-width: 500px;
-            height: auto;
-            border-radius: 0%;
-            border: 2px solid #1a3e1a;
-            padding: 1px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .product-image-container {
-            display: none;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background-color: #f5faf5;
-            border: 1px solid #a3c1a3;
-            padding: 10px;
-        }
-        .cart-item-image {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 10px;
-            border: 1px solid #a3c1a3;
-        }
-        .cart-item-content {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beauty Product Cost Calculator</title>
+  <style>
+    body {
+      font-family: 'Montserrat', 'Arial', sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f0f7f0;
+      color: #333;
+      background-image: linear-gradient(to bottom, rgba(0, 80, 0, 0.1) 0%, rgba(240, 247, 240, 1) 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    h1 {
+      color: #1a3e1a;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      letter-spacing: 1px;
+      font-size: 6vw;
+    }
+
+    .calculator {
+      background-color: white;
+      padding: 5vw;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #a3c1a3;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #2d4d2d;
+      font-size: 4vw;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 3vw;
+      border: 1px solid #b8d0b8;
+      border-radius: 6px;
+      font-size: 4vw;
+      background-color: #f5faf5;
+    }
+
+    #add-to-cart-btn,
+    #whatsapp-btn {
+      font-size: 4vw;
+      padding: 4vw;
+      border-radius: 6px;
+    }
+
+    .cart ul li span {
+      font-size: 4vw;
+    }
+
+    .total {
+      font-size: 4.5vw;
+    }
+
+    .cart-item-image {
+      width: 10vw;
+      height: 10vw;
+    }
+
+    .logo {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (min-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
+      label,
+      select,
+      input,
+      #add-to-cart-btn,
+      #whatsapp-btn,
+      .cart ul li span,
+      .total {
+        font-size: 16px;
+      }
+      .cart-item-image {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
 </head>
 <body>
     <h1>Beauty Product Cost Calculator</h1>
