@@ -362,7 +362,7 @@
                 const totalCartPrice = cart.reduce((sum, item) => sum + item.total, 0);
                 const finalMessage = `Hello! I would like to order:\n\n${message}\n\nTotal: Rp ${totalCartPrice.toLocaleString('id-ID')}`;
                 const encodedMessage = encodeURIComponent(finalMessage);
-                const whatsappNumber = '6285648423768';
+                const whatsappNumber = '6282228222525';
                 window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
             });
         });
