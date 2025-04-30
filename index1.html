@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Product Cost Calculator</title>
+    <style>
+        body {
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f7f0;
+            color: #333;
+            background-image: linear-gradient(to bottom, rgba(0, 80, 0, 0.1) 0%, rgba(240, 247, 240, 1) 100%);
+        }
+        h1 {
+            color: #1a3e1a;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+        .calculator {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #a3c1a3;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d4d2d;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b8d0b8;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #f5faf5;
+            transition: all 0.3s;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: #1a3e1a;
+            box-shadow: 0 0 0 2px rgba(26, 62, 26, 0.2);
+        }
+        #add-to-cart-btn {
+            background: linear-gradient(to right, #1a3e1a, #2d5c2d);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #add-to-cart-btn:hover {
+            background: linear-gradient(to right, #2d5c2d, #1a3e1a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        #add-to-cart-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #add-to-cart-btn::before {
+            content: "🛒";
+            font-size: 18px;
+        }
+        .cart {
+            background-color: #f5faf5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            border: 1px solid #a3c1a3;
+        }
+        .cart h3 {
+            margin-top: 0;
+            color: #2d5c2d;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .cart ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .cart ul li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart ul li button {
+            background: #1a3e1a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cart ul li button:hover {
+            background: #2d5c2d;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 1px solid #a3c1a3;
+            padding-top: 12px;
+            margin-top: 12px;
+            color: #2d5c2d;
+        }
+        .total span:last-child {
+            color: #1a3e1a;
+            font-size: 20px;
+        }
+        #whatsapp-btn {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        #whatsapp-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 500px;
+            height: auto;
+            border-radius: 0%;
+            border: 2px solid #1a3e1a;
+            padding: 1px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .product-image-container {
+            display: none;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f5faf5;
+            border: 1px solid #a3c1a3;
+            padding: 10px;
+        }
+        .cart-item-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 10px;
+            border: 1px solid #a3c1a3;
+        }
+        .cart-item-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beauty Product Cost Calculator</h1>
+    
+    <div class="calculator">
+        <div class="logo-container">
+            <img src="logoo.jpg" alt="Beauty Shop Logo" class="logo">
+        </div>
+
+        <div class="form-group">
+            <label for="product-size">Product Selection</label>
+            <select id="product-size" required>
+                <option value="">Select a product</option>
+                <option value="Pentol Kecil" data-price="55000" data-image="pk.jpg">Pentol Kecil 100 biji - Rp 55,000</option>
+                <option value="Pentol Besar" data-price="60000" data-image="pb.jfif">Pentol Besar 25 biji - Rp 60,000</option>
+                <option value="Pentol Jamur" data-price="35000" data-image="pj.jfif">Pentol jamur 50 biji - Rp 35,000</option>
+                <option value="Pentol Mercon" data-price="35000" data-image="pm.jpg">Pentol Mercon 50 biji - Rp 35,000</option>
+                <option value="Tahu Kotak" data-price="35000" data-image="tk.jpg">Tahu Kotak 50 biji - Rp 35,000</option>
+                <option value="Tahu Bakso" data-price="55000" data-image="tb.jpg">Tahu Bakso 100 biji - Rp 55,000</option>
+                <option value="Siomay Kubis" data-price="20000" data-image="sk.jpg">Siomay Kubis 25 biji - Rp 20,000</option>
+                <option value="Siomay Pangsit" data-price="35000" data-image="sp.jpg">Siomay Pangsit 50 biji - Rp 35,000</option>
+            </select>
+            <div class="product-image-container" id="product-image-container">
+                <img src="" alt="Product Image" class="product-image" id="product-image">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" min="1" value="1" required>
+        </div>
+        
+        <button id="add-to-cart-btn">Add to Cart</button>
+        
+        <div class="cart">
+            <h3>Shopping Cart</h3>
+            <ul id="cart-items">
+                <li>No items in the cart</li>
+            </ul>
+            <div class="summary-item total">
+                <span>Total Cart Price:</span>
+                <span id="cart-total">Rp 0</span>
+            </div>
+        </div>
+        
+        <button id="whatsapp-btn" disabled>
+            <span class="whatsapp-icon">📱</span>
+            Order via WhatsApp
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productSizeSelect = document.getElementById('product-size');
+            const quantityInput = document.getElementById('quantity');
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const productImageContainer = document.getElementById('product-image-container');
+            const productImage = document.getElementById('product-image');
+            
+            let cart = [];
+        
+            // Show product image when product is selected
+            productSizeSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption.value) {
+                    productImage.src = selectedOption.getAttribute('data-image');
+                    productImageContainer.style.display = 'block';
+                } else {
+                    productImageContainer.style.display = 'none';
+                }
+            });
+        
+            function updateCart() {
+                cartItems.innerHTML = '';
+                let totalCartPrice = 0;
+        
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<li>No items in the cart</li>';
+                } else {
+                    cart.forEach((item, index) => {
+                        const listItem = document.createElement('li');
+        
+                        const itemContent = document.createElement('div');
+                        itemContent.className = 'cart-item-content';
+        
+                        const itemImage = document.createElement('img');
+                        itemImage.src = item.image;
+                        itemImage.className = 'cart-item-image';
+                        itemImage.alt = item.size;
+        
+                        const itemText = document.createElement('span');
+                        itemText.textContent = `${item.quantity}x ${item.size} - Rp ${item.total.toLocaleString('id-ID')}`;
+        
+                        itemContent.appendChild(itemImage);
+                        itemContent.appendChild(itemText);
+        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = 'Remove';
+                        removeBtn.addEventListener('click', () => {
+                            cart.splice(index, 1);
+                            updateCart();
+                        });
+        
+                        listItem.appendChild(itemContent);
+                        listItem.appendChild(removeBtn);
+                        cartItems.appendChild(listItem);
+                        totalCartPrice += item.total;
+                    });
+                }
+        
+                cartTotal.textContent = `Rp ${totalCartPrice.toLocaleString('id-ID')}`;
+                whatsappBtn.disabled = cart.length === 0;
+            }
+        
+            addToCartBtn.addEventListener('click', function() {
+                const selectedOption = productSizeSelect.selectedOptions[0];
+                const productSize = selectedOption.text.split(' - ')[0];
+                const quantity = parseInt(quantityInput.value);
+                const image = selectedOption.getAttribute('data-image');
+        
+                if (!productSizeSelect.value || !quantity) {
+                    alert('Please select product and quantity before adding to the cart.');
+                    return;
+                }
+        
+                const price = parseInt(selectedOption.dataset.price);
+                const total = price * quantity;
+        
+                const existingItemIndex = cart.findIndex(item => item.size === productSize);
+        
+                if (existingItemIndex >= 0) {
+                    cart[existingItemIndex].quantity += quantity;
+                    cart[existingItemIndex].total = cart[existingItemIndex].quantity * price;
+                } else {
+                    cart.push({
+                        size: productSize,
+                        quantity: quantity,
+                        total: total,
+                        image: image
+                    });
+                }
+        
+                updateCart();
+            });
+        
+            whatsappBtn.addEventListener('click', function() {
+                const message = cart.map(item => 
+                    `${item.quantity}x ${item.size} - Rp ${item.total.toLocaleString('id-ID')}`
+                ).join('\n');
+                const totalCartPrice = cart.reduce((sum, item) => sum + item.total, 0);
+                const finalMessage = `Hello! I would like to order:\n\n${message}\n\nTotal: Rp ${totalCartPrice.toLocaleString('id-ID')}`;
+                const encodedMessage = encodeURIComponent(finalMessage);
+                const whatsappNumber = '6285648423768';
+                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
